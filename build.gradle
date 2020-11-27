@@ -9,6 +9,12 @@ group 'com.spearkkk'
 version '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -16,7 +22,11 @@ repositories {
 
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.3.11'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'org.springframework.boot:spring-boot-starter'
+    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.3'
+    testImplementation 'org.spockframework:spock-spring:1.1-groovy-2.3'
 }
