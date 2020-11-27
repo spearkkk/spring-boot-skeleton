@@ -10,7 +10,7 @@ import spock.lang.Specification
 @WebMvcTest(controllers = HelloController.class)
 class HelloControllerTest extends Specification {
     @Autowired
-    protected MockMvc mockMvc
+    private MockMvc mockMvc
 
     def "HelloController should return 'hello, dude!' for '/hello'."() {
         when:
