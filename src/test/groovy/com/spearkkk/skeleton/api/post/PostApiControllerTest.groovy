@@ -89,4 +89,29 @@ class PostApiControllerTest extends Specification {
     foundPost.content == "POST_UPDATE_CONTENT"
     foundPost.author == "POST_SAMPLE_AUTHOR"
   }
+
+  def "PostApiController should delete post which is from database."() {
+    given:
+    def title = "POST_SAMPLE_TITLE"
+    def content = "POST_SAMPLE_CONTENT"
+    def author = "POST_SAMPLE_AUTHOR"
+    def existingPost = Post.builder()
+                           .title(title)
+                           .content(content)
+                           .author(author)
+                           .build()
+    def savedPost = postRepository.save(existingPost)
+
+    def url = "http://localhost:$port/api/posts/${savedPost.getId()}"
+
+    when:
+    def result = restTemplate.exchange(url, HttpMethod.DELETE, null, Long.class)
+
+    then:
+    result.getStatusCode() == HttpStatus.OK
+    result.getBody() >= 0L
+
+    def foundPosts = postRepository.findAll()
+    foundPosts.isEmpty()
+  }
 }
