@@ -5,11 +5,13 @@ import com.spearkkk.skeleton.api.post.PostSaveRequestDto;
 import com.spearkkk.skeleton.api.post.PostUpdateRequestDto;
 import com.spearkkk.skeleton.domain.post.Post;
 import com.spearkkk.skeleton.domain.post.PostRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,6 +45,36 @@ public class PostService {
                             .content(foundPost.getContent())
                             .author(foundPost.getAuthor())
                             .build();
+    }
+    log.warn("There is no post from database. id: {}", id);
+    throw new IllegalStateException("Cannot find post from database.");
+  }
+
+  @Transactional(readOnly = true)
+  public List<PostResponseDto> findAllDesc() {
+    List<PostResponseDto> dtos = new ArrayList<>();
+
+    for (Post foundPost: postRepository.findAllDesc()) {
+      dtos.add(PostResponseDto.builder()
+                              .id(foundPost.getId())
+                              .title(foundPost.getTitle())
+                              .content(foundPost.getContent())
+                              .author(foundPost.getAuthor())
+                              .createdDatetime(foundPost.getCreatedDatetime())
+                              .modifiedDatetime(foundPost.getModifiedDatetime())
+                              .build());
+    }
+    log.info("count of post: {}", dtos.size());
+    return dtos;
+  }
+
+  @Transactional
+  public void delete(final Long id) {
+    Optional<Post> post = postRepository.findById(id);
+    if (post.isPresent()) {
+      Post foundPost = post.get();
+      postRepository.delete(foundPost);
+      return;
     }
     log.warn("There is no post from database. id: {}", id);
     throw new IllegalStateException("Cannot find post from database.");

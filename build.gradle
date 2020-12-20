@@ -28,6 +28,9 @@ dependencies {
     /// apache common lang
     implementation 'org.apache.commons:commons-lang3:3.11'
 
+    /// enable to mustache
+    implementation 'org.springframework.boot:spring-boot-starter-mustache:2.4.0'
+
     /// in-memory database
     runtimeOnly 'com.h2database:h2'
 

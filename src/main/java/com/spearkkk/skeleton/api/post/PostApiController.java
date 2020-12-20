@@ -3,6 +3,7 @@ package com.spearkkk.skeleton.api.post;
 import com.spearkkk.skeleton.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,5 +31,11 @@ public class PostApiController {
   @GetMapping("/api/posts/{id}")
   public PostResponseDto findBy(@PathVariable Long id) {
     return postService.findBy(id);
+  }
+
+  @DeleteMapping("/api/posts/{id}")
+  public Long delete(@PathVariable Long id) {
+    postService.delete(id);
+    return id;
   }
 }
