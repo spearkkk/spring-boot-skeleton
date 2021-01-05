@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    include: oauth
   jpa:
     show-sql: true
     properties:
@@ -15,3 +13,11 @@ spring:
       enabled: true
   session:
     store-type: jdbc
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test
+            client-secret: test
+            scope: profile,email

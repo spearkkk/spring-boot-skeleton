@@ -14,9 +14,4 @@ class IndexControllerTest extends Specification {
     expect:
     restTemplate.getForObject("/", String.class).contains("Hello")
   }
-
-  def "IndexController should be return html which has 'Writing Post'."() {
-    expect:
-    restTemplate.getForObject("/posts/save", String.class).contains("Writing Post")
-  }
 }
